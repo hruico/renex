@@ -21,4 +21,7 @@ router.post('/refresh', authController.refresh);
 // Note: This route is protected by the requireAuth middleware
 router.get('/me', requireAuth, authController.getMe);
 
+// PUT /auth/password → Change password (authenticated)
+router.put('/password', requireAuth, authController.changePassword);
+
 module.exports = router;

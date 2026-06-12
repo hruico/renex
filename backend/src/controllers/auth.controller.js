@@ -129,3 +129,31 @@ exports.getMe = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string(),
+  newPassword:     z.string().min(6),
+});
+
+exports.changePassword = async (req, res) => {
+  try {
+    const parsed = changePasswordSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors });
+
+    const { currentPassword, newPassword } = parsed.data;
+
+    const user = await User.findById(req.user.id).select('+passwordHash');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isMatch) return res.status(401).json({ message: 'Current password is incorrect' });
+
+    user.passwordHash = newPassword; // pre-save hook will hash it
+    await user.save();
+
+    return res.status(200).json({ message: 'Password updated successfully' });
+  } catch (err) {
+    console.error('ChangePassword error:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

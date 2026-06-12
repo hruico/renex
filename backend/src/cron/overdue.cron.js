@@ -20,14 +20,14 @@ const startOverdueCron = () => {
         booking.status = 'overdue';
         await booking.save();
 
+        const userName  = booking.user?.name  || 'User';
+        const userEmail = booking.user?.email;
+        const assetName = booking.asset?.name || 'asset';
+
         await createAuditLog(
           booking.user._id, ACTIONS.BOOKING_OVERDUE, 'booking', booking._id,
           { assetName, dueDate: booking.issueDetails.dueDate }
         );
-
-        const userName  = booking.user?.name  || 'User';
-        const userEmail = booking.user?.email;
-        const assetName = booking.asset?.name || 'asset';
 
         await Notification.create({
           user:           booking.user._id,
