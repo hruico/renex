@@ -22,7 +22,8 @@ export default function AuditLogs() {
       <h1 className="text-xl font-semibold">Audit Logs</h1>
       {loading ? <Spinner /> : (
         <>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>{['Action','Entity','Performed By','Time'].map((h) => (
@@ -42,6 +43,19 @@ export default function AuditLogs() {
             </table>
             {logs.length === 0 && <p className="text-center text-gray-400 py-10">No logs yet.</p>}
           </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-3">
+            {logs.map((l) => (
+              <div key={l._id} className="bg-white rounded-xl border border-gray-200 p-4">
+                <p className="font-mono text-xs text-blue-700 font-medium">{l.action}</p>
+                <p className="text-xs text-gray-500 mt-1">{l.entityType} · {l.performedBy?.name || '—'}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{new Date(l.performedAt).toLocaleString()}</p>
+              </div>
+            ))}
+            {logs.length === 0 && <p className="text-center text-gray-400 py-10">No logs yet.</p>}
+          </div>
+
           <Pagination page={pagination.page} pages={pagination.pages} onChange={setPage} />
         </>
       )}

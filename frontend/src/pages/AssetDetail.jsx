@@ -61,7 +61,7 @@ export default function AssetDetail() {
           <form onSubmit={book} className="space-y-4">
             <Input label="Quantity" type="number" min={1} max={asset.availableQuantity} value={form.quantityRequested} onChange={f('quantityRequested')} required />
             <Input label="Purpose" value={form.purpose} onChange={f('purpose')} placeholder="What will you use it for?" required />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input label="Start Date" type="date" value={form.startDate} onChange={f('startDate')} required />
               <Input label="End Date" type="date" value={form.endDate} onChange={f('endDate')} required />
             </div>

@@ -9,8 +9,8 @@ const COLORS = ['#2563eb','#16a34a','#d97706','#dc2626','#7c3aed','#0891b2'];
 function StatCard({ label, value, sub }) {
   return (
     <Card>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-3xl font-bold mt-1">{value}</p>
+      <p className="text-xs text-gray-500 leading-tight">{label}</p>
+      <p className="text-2xl md:text-3xl font-bold mt-1">{value}</p>
       {sub && <p className="text-xs text-gray-400 mt-1">{sub}</p>}
     </Card>
   );
@@ -44,7 +44,7 @@ export default function Dashboard() {
       <h1 className="text-xl font-semibold">Dashboard</h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <StatCard label="Total Assets" value={summary?.totalAssets} />
         <StatCard label="Active Bookings" value={summary?.activeBookings} />
         <StatCard label="Pending Approval" value={summary?.pendingCount} />
@@ -91,10 +91,10 @@ export default function Dashboard() {
         {/* Top Assets */}
         <Card className="lg:col-span-2">
           <p className="text-sm font-medium mb-4">Top 10 Most Booked Assets</p>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={popular} layout="vertical">
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={popular} layout="vertical" margin={{ left: 0, right: 16 }}>
               <XAxis type="number" tick={{ fontSize: 11 }} allowDecimals={false} />
-              <YAxis type="category" dataKey="asset.name" tick={{ fontSize: 11 }} width={130} />
+              <YAxis type="category" dataKey="asset.name" tick={{ fontSize: 10 }} width={110} />
               <Tooltip />
               <Bar dataKey="count" fill="#2563eb" radius={[0, 4, 4, 0]} />
             </BarChart>

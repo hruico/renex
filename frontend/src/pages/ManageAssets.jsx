@@ -41,7 +41,8 @@ export default function ManageAssets() {
 
       {loading ? <Spinner /> : (
         <>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>{['Name','Category','Total','Available','Status','Actions'].map((h) => (
@@ -71,6 +72,31 @@ export default function ManageAssets() {
             </table>
             {assets.length === 0 && <p className="text-center text-gray-400 py-10">No assets yet.</p>}
           </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-3">
+            {assets.map((a) => (
+              <div key={a._id} className="bg-white rounded-xl border border-gray-200 p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-medium text-sm">{a.name}</p>
+                    <p className="text-xs text-gray-500">{a.category}</p>
+                    <p className="text-xs text-gray-400">{a.availableQuantity} / {a.totalQuantity} available</p>
+                  </div>
+                  <Badge label={a.status} />
+                </div>
+                <div className="flex gap-3 flex-wrap pt-1">
+                  <Link to={`/assets/manage/${a._id}/edit`} className="text-blue-600 hover:underline text-xs">Edit</Link>
+                  <Link to={`/assets/${a._id}`} className="text-gray-500 hover:underline text-xs">View</Link>
+                  <Link to={`/assets/${a._id}/health`} className="text-green-600 hover:underline text-xs">Health</Link>
+                  <button onClick={() => setQr({ id: a._id, name: a.name })} className="text-purple-600 hover:underline text-xs">QR</button>
+                  <button onClick={() => del(a._id)} className="text-red-500 hover:underline text-xs">Delete</button>
+                </div>
+              </div>
+            ))}
+            {assets.length === 0 && <p className="text-center text-gray-400 py-10">No assets yet.</p>}
+          </div>
+
           <Pagination page={pagination.page} pages={pagination.pages} onChange={setPage} />
         </>
       )}

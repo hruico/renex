@@ -44,7 +44,8 @@ export default function Bookings() {
 
       {loading ? <Spinner /> : (
         <>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>{['User','Asset','Qty','Dates','Status','Actions'].map((h) => (
@@ -81,6 +82,35 @@ export default function Bookings() {
             </table>
             {bookings.length === 0 && <p className="text-center text-gray-400 py-10">No bookings found.</p>}
           </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-3">
+            {bookings.map((b) => (
+              <div key={b._id} className="bg-white rounded-xl border border-gray-200 p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-medium text-sm">{b.asset?.name}</p>
+                    <p className="text-xs text-gray-500">{b.user?.name} · Qty: {b.quantityRequested}</p>
+                    <p className="text-xs text-gray-400">
+                      {new Date(b.startDate).toLocaleDateString()} – {new Date(b.endDate).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <Badge label={b.status} />
+                </div>
+                <div className="flex gap-3 flex-wrap pt-1">
+                  <Link to={`/bookings/${b._id}`} className="text-blue-600 hover:underline text-xs">View</Link>
+                  {b.status === 'pending' && <>
+                    <button onClick={() => action(b._id, 'approve')} className="text-green-600 hover:underline text-xs">Approve</button>
+                    <button onClick={() => action(b._id, 'reject')} className="text-red-500 hover:underline text-xs">Reject</button>
+                  </>}
+                  {b.status === 'approved' && <button onClick={() => action(b._id, 'issue')} className="text-purple-600 hover:underline text-xs">Issue</button>}
+                  {['issued','overdue'].includes(b.status) && <button onClick={() => action(b._id, 'return')} className="text-gray-600 hover:underline text-xs">Return</button>}
+                </div>
+              </div>
+            ))}
+            {bookings.length === 0 && <p className="text-center text-gray-400 py-10">No bookings found.</p>}
+          </div>
+
           <Pagination page={pagination.page} pages={pagination.pages} onChange={setPage} />
         </>
       )}

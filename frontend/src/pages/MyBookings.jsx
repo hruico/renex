@@ -42,15 +42,17 @@ export default function MyBookings() {
           <div className="space-y-3">
             {bookings.map((b) => (
               <Link key={b._id} to={`/bookings/${b._id}`}>
-                <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 hover:border-blue-300 transition flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{b.asset?.name}</p>
+                <div className="bg-white rounded-xl border border-gray-200 px-4 py-4 hover:border-blue-300 transition flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium truncate">{b.asset?.name}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{b.asset?.category} · Qty: {b.quantityRequested}</p>
                     <p className="text-xs text-gray-400 mt-0.5">
                       {new Date(b.startDate).toLocaleDateString()} – {new Date(b.endDate).toLocaleDateString()}
                     </p>
                   </div>
-                  <Badge label={b.status} />
+                  <div className="shrink-0">
+                    <Badge label={b.status} />
+                  </div>
                 </div>
               </Link>
             ))}

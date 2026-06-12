@@ -1,5 +1,7 @@
 # Renex — Asset Management System
 
+**Live:** [https://renex-gamma.vercel.app](https://renex-gamma.vercel.app) · **Demo:** [YouTube](https://www.youtube.com/watch?v=b0EJAK674_g)
+
 A full-stack web application for managing institutional assets. Admins manage an asset inventory, handle booking requests, track asset health, and monitor usage analytics. Users browse available assets, submit booking requests, and track their own history.
 
 ---
@@ -165,27 +167,6 @@ Frontend at `http://localhost` (port 80). API proxied through Nginx at `/api/`.
 
 ---
 
-## Deployment (Vercel + Render)
-
-### Backend → Render
-
-1. New **Web Service** → connect repo
-2. Root Directory: `backend`
-3. Build Command: `npm ci` | Start Command: `npm start`
-4. Add all env vars from `backend/.env.example`
-5. Set `FRONTEND_URL` to your Vercel URL after step below
-
-### Frontend → Vercel
-
-1. New Project → import repo
-2. Root Directory: `frontend`
-3. Add environment variable:
-   - `VITE_API_URL` = `https://<your-render-service>.onrender.com/api/v1`
-4. Deploy
-
-After both are live, go back to Render and update `FRONTEND_URL` to your Vercel URL to allow CORS.
-
----
 
 ## Project Structure
 
