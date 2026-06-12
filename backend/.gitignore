@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Environment variables — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Uploads (user-generated files)
+uploads/assets/*
+!uploads/assets/.gitkeep
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
